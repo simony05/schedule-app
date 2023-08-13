@@ -3,17 +3,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.db import IntegrityError
 
-from .models import User
+from .models import User, Activity
 
 def index(request):
 
     # If signed in, can view schedule
-    if request.user.is_authenticated:
+    #if request.user.is_authenticated:
         return render(request, "schedule/index.html")
 
     # Else have to sign in
-    else:
-        return HttpResponseRedirect(reverse("login"))
+    #else:
+        #return HttpResponseRedirect(reverse("login"))
 
 def login_page(request):
     if request.method == "POST":

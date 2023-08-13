@@ -2,18 +2,29 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 from .models import User, Activity
 
 def index(request):
+    return render(request, "schedule/index.html")
 
-    # If signed in, can view schedule
-    #if request.user.is_authenticated:
-        return render(request, "schedule/index.html")
+@login_required
+def activities(request):
+    activities = Activity.objects.filter(user=request.user)
+    return JsonResponse([activity.serialize() for activity in activities], safe=False)
 
-    # Else have to sign in
-    #else:
-        #return HttpResponseRedirect(reverse("login"))
+@login_required
+def new_activity(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        content = request.POST["description"]
+        date = request.POST["time"]
+        user = User.objects.get(pk=request.user.id)
+        activity = Activity(user=user, title=title, content=content, date=date)
+        activity.save()
+        return HttpResponseRedirect(reverse(index))
 
 def login_page(request):
     if request.method == "POST":
@@ -28,11 +39,11 @@ def login_page(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "schedule/login.html", {
+            return render(request, "schedule/index.html", {
                 "message": "Invalid username and/or password."
             })
     else:
-        return render(request, "schedule/login.html")
+        return render(request, "schedule/index.html")
     
 def logout_page(request):
     logout(request)

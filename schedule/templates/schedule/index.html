@@ -42,9 +42,46 @@
       {% endif %}
     </div>
 
+  {% if message %}
+    <div>{{ message }}</div>
+  {% endif %}
+
   <div id="schedule-view">
   </div>
 
+  {% if user.is_authenticated %}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#activityModal">
+      New Activity
+    </button>
+  {% endif %}
+
+  <div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="activityModalLabel">Add New Activity</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'new_activity' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input autofocus class="form-control" type="text" name="title" placeholder="Title">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="description" placeholder="Description">
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="date" name="time" id="datepicker" placeholder="mm/dd/yyyy">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Add">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block script %}

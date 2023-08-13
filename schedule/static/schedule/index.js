@@ -12,3 +12,5 @@ document.addEventListener('DOMContentLoaded', function() {
 function load_schedule(time) {
   document.querySelector('#schedule-view').innerHTML = "hi";
 }
+
+datepicker.min = new Date().toLocaleDateString('fr-ca')

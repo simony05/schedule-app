@@ -5,11 +5,10 @@ class User(AbstractUser):
     pass
 
 class Activity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="schedule_user")
     title = models.CharField(max_length=150)
     content = models.CharField(max_length=300)
-    day = models.IntegerField()
-    month = models.IntegerField()
-    year = models.IntegerField()
+    date = models.CharField(max_length=10)
 
     def __str__(self):
-        return f"{self.title}, {self.content}, on {self.month}/{self.day}/{self.year}"
+        return f"{self.title}, {self.content}, on {self.date}"

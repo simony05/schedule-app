@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from datetime import datetime
 
 from .models import User, Activity
 
@@ -13,7 +14,21 @@ def index(request):
 @login_required
 def activities(request):
     activities = Activity.objects.filter(user=request.user)
-    return JsonResponse([activity.serialize() for activity in activities], safe=False)
+    valid = []
+    for activity in activities:
+        passed = False
+        activity_month = activity.date[:2]
+        activity_day = activity.date[3:5]
+        if activity_month == datetime.now().month:
+            if activity_day < datetime.now().day:
+                passed = True
+        if passed == True:
+            passed_activity = Activity.objects.get(id=activity.id)
+            passed_activity.delete()
+        else:
+            valid.append(activity)
+
+    return JsonResponse([activity.serialize() for activity in valid], safe=False)
 
 @login_required
 def new_activity(request):

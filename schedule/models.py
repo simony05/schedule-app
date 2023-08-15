@@ -10,5 +10,14 @@ class Activity(models.Model):
     content = models.CharField(max_length=300)
     date = models.CharField(max_length=10)
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user": self.user,
+            "title": self.title,
+            "content": self.content,
+            "date": self.date
+        }
+    
     def __str__(self):
         return f"{self.title}, {self.content}, on {self.date}"

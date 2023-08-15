@@ -11,6 +11,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function load_schedule(time) {
   document.querySelector('#schedule-view').innerHTML = "hi";
+  fetch('/activities')
+  .then(response => response.json())
+  .then(activities => {
+    
+    // Loop through emails, create <div> for each
+    activities.forEach(activity => {
+      // Create div for each email
+      const newActivity = document.createElement('div');
+      newActivity.className = "list-group-item";
+      newActivity.className = "border-style";
+      newActivity.innerHTML = `
+      <h6>Sender: ${activity.title/h6>
+      <h5>Subject: ${activity.content</h5>
+      `;
+    }
+  }
 }
 
 datepicker.min = new Date().toLocaleDateString('fr-ca')

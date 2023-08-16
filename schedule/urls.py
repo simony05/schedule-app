@@ -7,5 +7,5 @@ urlpatterns = [
     path("logout", views.logout_page, name="logout"),
     path("register", views.register, name="register"),
     path("new_activity", views.new_activity, name="new_activity"),
-    path("activities", views.activities, name="activities"),
+    path("activities/<str:time>", views.activities, name="activities"),
 ]

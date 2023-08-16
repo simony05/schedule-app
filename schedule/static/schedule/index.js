@@ -14,16 +14,17 @@ function load_schedule(time) {
   if (time == "week") {
     document.querySelector('#schedule-view').innerHTML = "bye";
   }
-  fetch('/activities/')
+  fetch(`/activities/${time}`)
   .then(response => response.json())
   .then(activities => {
     
-    // Loop through emails, create <div> for each
+    // Loop through activitiest occurring in that time period, create <div> for each
     activities.forEach(activity => {
-      // Create div for each email
-      const newActivity = document.createElement('div');
-      newActivity.className = "list-group-item";
-      newActivity.className = "border-style";
+      // Create div for each activity
+      const new_activity = document.createElement('div');
+      new_activity.className = "list-group-item";
+      new_activity.className = "border-style";
+      new_activity.innerHTML = '<h5>activity.title</h5>';
     })
   })
 }

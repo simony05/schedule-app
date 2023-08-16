@@ -12,7 +12,7 @@ def index(request):
     return render(request, "schedule/index.html")
 
 @login_required
-def activities(request):
+def activities(request, time):
     activities = Activity.objects.filter(user=request.user)
     valid = []
     for activity in activities:

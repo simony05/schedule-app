@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import json
 
 class User(AbstractUser):
     pass
@@ -10,14 +11,9 @@ class Activity(models.Model):
     content = models.CharField(max_length=300)
     date = models.CharField(max_length=10)
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "user": self.user,
-            "title": self.title,
-            "content": self.content,
-            "date": self.date
-        }
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
     
     def __str__(self):
         return f"{self.title}, {self.content}, on {self.date}"

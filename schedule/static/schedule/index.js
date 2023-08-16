@@ -18,15 +18,13 @@ function load_schedule(time) {
   .then(response => response.json())
   .then(activities => {
     
-    // Loop through activitiest occurring in that time period, create <div> for each
+    // Loop through activities occurring in that time period, create <div> for each
     activities.forEach(activity => {
+      console.log("hi")
       // Create div for each activity
       const new_activity = document.createElement('div');
-      new_activity.className = "list-group-item";
-      new_activity.className = "border-style";
-      new_activity.innerHTML = '<h5>activity.title</h5>';
+      new_activity.innerHTML = `<h5>${activity.title}</h5>`;
+      document.body.append(new_activity);
     })
   })
 }
-
-datepicker.min = new Date().toLocaleDateString('fr-ca');

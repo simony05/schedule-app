@@ -28,7 +28,7 @@ def activities(request, time):
         else:
             valid.append(activity)
 
-    return JsonResponse([activity.serialize() for activity in valid], safe=False)
+    return JsonResponse([activity.toJSON() for activity in valid], safe=False)
 
 @login_required
 def new_activity(request):

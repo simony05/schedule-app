@@ -10,10 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
 function load_schedule(time) {
-  document.querySelector('#schedule-view').innerHTML = "hi";
-  if (time == "week") {
-    document.querySelector('#schedule-view').innerHTML = "bye";
-  }
+  // Refresh the display everytime
+
   fetch(`/activities/${time}`)
   .then(response => response.json())
   .then(activities => {
@@ -23,7 +21,7 @@ function load_schedule(time) {
       console.log("hi")
       // Create div for each activity
       const new_activity = document.createElement('div');
-      new_activity.innerHTML = `<h5>${activity.title}</h5>`;
+      new_activity.innerHTML = `<h4>${activity.title}</h4>`;
       document.body.append(new_activity);
     })
   })

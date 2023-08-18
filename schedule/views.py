@@ -17,8 +17,8 @@ def activities(request, time):
     valid = []
     for activity in activities:
         passed = False
-        activity_month = activity.date[:2]
-        activity_day = activity.date[3:5]
+        activity_month = int(activity.date[5:7])
+        activity_day = int(activity.date[8:])
         if activity_month == datetime.now().month:
             if activity_day < datetime.now().day:
                 passed = True
@@ -26,9 +26,17 @@ def activities(request, time):
             passed_activity = Activity.objects.get(id=activity.id)
             passed_activity.delete()
         else:
-            valid.append(activity)
-
-    return JsonResponse([activity.toJSON() for activity in valid], safe=False)
+            if time == "today":
+                if activity_day == datetime.now().day:
+                    valid.append(activity)
+            if time == "week":
+                if activity_day - datetime.now().day < 7:
+                    valid.append(activity)
+            if time == "month":
+                if activity_month == datetime.now().month:
+                    valid.append(activity)
+    
+    return JsonResponse([activity.serialize() for activity in valid], safe=False)
 
 @login_required
 def new_activity(request):

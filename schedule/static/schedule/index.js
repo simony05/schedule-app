@@ -31,14 +31,14 @@ fetch(`/activities/${time}`)
   .then(activities => {
     console.log("hia")
     
-    document.querySelector(`#${time}-view`).innerHTML = ""
+    document.querySelector(`#${time}-view`).innerHTML = "";
 
     // Loop through activities occurring in that time period, create <div> for each
     
     activities.forEach(activity => {
       console.log("hi")
       // Create div for each activity
-      document.querySelector(`#${time}-view`).innerHTML += `<h4>${activity.title}</h4>`
+      document.querySelector(`#${time}-view`).innerHTML += `<h4>${activity.title}</h4>`;
     })
   })
 }

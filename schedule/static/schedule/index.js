@@ -29,28 +29,23 @@ else {
 fetch(`/activities/${time}`)
   .then(response => response.json())
   .then(activities => {
-    console.log(activities)
-    document.querySelector(`#${time}-view`).innerHTML = "";
     activities.forEach(activity => {
-      // CSS for each activity
-      const button = document.createElement('button');
+    console.log(activities)
+    const button = document.createElement('button');
       button.innerHTML = "Delete";
-      document.querySelector(`#${time}-view`).innerHTML += `
+      document.querySelector(`#${time}-view`).innerHTML += 
+      `
       <div class="activity">
         <h4>${activity.title}</h4>
         <h5>${activity.content}</h5>
-       button
+        <button id="delete_activity">Click</button>
       </div>
       `
-      const delete_activity = document.getElementById('activity');
-      button.addEventListener('click', () => {
-        if (delete_activity) {
-          activity.remove();
-        }
-      })
+      document.getElementById('delete_activity').addEventListener('click', delete_activity(activity.id, time))
     })
   })
 }
+
 
 function delete_activity(id, time) {
   fetch(`/delete_activity/${id}`)

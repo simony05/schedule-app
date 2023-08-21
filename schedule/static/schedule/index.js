@@ -33,23 +33,26 @@ fetch(`/activities/${time}`)
     document.querySelector(`#${time}-view`).innerHTML = "";
     activities.forEach(activity => {
       // CSS for each activity
-      const button = document.createElement("button");
-      button.classList.add("btn btn-success");
-      document.querySelector(`#${time}-view`).innerHTML += 
-      `<h4>${activity.title}</h4>
-      <h5>${activity.content}</h5>
-      ${button}
+      const button = document.createElement('button');
+      button.innerHTML = "Delete";
+      document.querySelector(`#${time}-view`).innerHTML += `
+      <div class="activity">
+        <h4>${activity.title}</h4>
+        <h5>${activity.content}</h5>
+       button
+      </div>
       `
+      const delete_activity = document.getElementById('activity');
+      button.addEventListener('click', () => {
+        if (delete_activity) {
+          activity.remove();
+        }
+      })
     })
   })
 }
 
 function delete_activity(id, time) {
-  console.log(time)
   fetch(`/delete_activity/${id}`)
-  .then(response => response.json())
-  .then(activities => {
-    
-    load_schedule(time);
-  }
+  load_schedule(time);
 }

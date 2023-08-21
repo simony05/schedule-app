@@ -1,36 +1,35 @@
-h4 {
-  background-color: green;
+.navbtn {
+  letter-spacing: 0;
 }
 
-.navbar a {
-  text-decoration: none;
-  position: relative;
+.navbtn:hover,
+.navbtn:active {
+letter-spacing: 2px;
 }
 
-.navbar a::before {
-  content: '';
-  background-color: hsla(196, 61%, 58%, .75);
-  position: absolute;
-  left: 0;
-  bottom: 3px;
-  width: 100%;
-  height: 8px;
-  z-index: -1;
+.navbtn:after,
+.navbtn:before {
+backface-visibility: hidden;
+border: 1px solid rgba(#6e0f0f, 0);
+bottom: 0px;
+content: " ";
+display: block;
+margin: 0 auto;
+position: relative;
+transition: all 280ms ease-in-out;
+width: 0;
 }
 
-.navbar a:hover::before {
-  bottom: 0;
-  height: 100%;
+.navbtn:hover:after,
+.navbtn:hover:before {
+backface-visibility: hidden;
+border-color: #6e0f0f;
+transition: width 350ms ease-in-out;
+width: 70%;
 }
 
-.navbar a::before {
-  content: '';
-  background-color: hsla(196, 61%, 58%, .75);
-  position: absolute;
-  left: 0;
-  bottom: 3px;
-  width: 100%;
-  height: 8px;
-  z-index: -1;
-  transition: all .3s ease-in-out;
+.navbtn:hover:before {
+bottom: auto;
+top: 0;
+width: 70%;
 }

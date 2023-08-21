@@ -11,6 +11,13 @@ from .models import User, Activity
 def index(request):
     return render(request, "schedule/index.html")
 
+def delete_activity(request, activity_id):
+    activity = Activity.objects.get(pk=activity_id)
+    activity.delete()
+    return HttpResponseRedirect(reverse(index))
+
+#have the time if its "pm" add 12 to the time, filter so smaller numbers first
+
 @login_required
 def activities(request, time):
     activities = Activity.objects.filter(user=request.user)

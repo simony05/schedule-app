@@ -29,16 +29,27 @@ else {
 fetch(`/activities/${time}`)
   .then(response => response.json())
   .then(activities => {
-    console.log("hia")
-    
+    console.log(activities)
     document.querySelector(`#${time}-view`).innerHTML = "";
-
-    // Loop through activities occurring in that time period, create <div> for each
-    
     activities.forEach(activity => {
-      console.log("hi")
-      // Create div for each activity
-      document.querySelector(`#${time}-view`).innerHTML += `<h4>${activity.title}</h4>`;
+      // CSS for each activity
+      const button = document.createElement("button");
+      button.classList.add("btn btn-success");
+      document.querySelector(`#${time}-view`).innerHTML += 
+      `<h4>${activity.title}</h4>
+      <h5>${activity.content}</h5>
+      ${button}
+      `
     })
   })
+}
+
+function delete_activity(id, time) {
+  console.log(time)
+  fetch(`/delete_activity/${id}`)
+  .then(response => response.json())
+  .then(activities => {
+    
+    load_schedule(time);
+  }
 }

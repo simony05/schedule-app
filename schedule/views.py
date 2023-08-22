@@ -3,20 +3,39 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
 from datetime import datetime
 
 from .models import User, Activity
 
 def index(request):
-    return render(request, "schedule/index.html")
+    if request.user.is_authenticated:
+        activities = Activity.objects.filter(user=request.user)
+        valid = []
+        for activity in activities:
+            passed = False
+            activity_month = int(activity.date[5:7])
+            activity_day = int(activity.date[8:])
+            if activity_month == datetime.now().month:
+                if activity_day < datetime.now().day:
+                    passed = True
+            if passed == True:
+                passed_activity = Activity.objects.get(id=activity.id)
+                passed_activity.delete()
+            if activity_day == datetime.now().day:
+                valid.append(activity)
+        valid.sort(key=lambda x: x.timing[:2])
+        return render(request, "schedule/index.html", {
+        "activities": valid,
+        })
+    else:
+        return render(request, "schedule/index.html")
 
+@login_required
 def delete_activity(request, activity_id):
     activity = Activity.objects.get(pk=activity_id)
     activity.delete()
     return HttpResponseRedirect(reverse(index))
 
-#have the time if its "pm" add 12 to the time, filter so smaller numbers first
 
 @login_required
 def activities(request, time):
@@ -43,16 +62,20 @@ def activities(request, time):
                 if activity_month == datetime.now().month:
                     valid.append(activity)
     
-    return JsonResponse([activity.serialize() for activity in valid], safe=False)
+    valid.sort(key=lambda x: x.timing)
+    return render(request, "schedule/index.html", {
+        "activities": valid,
+    })
 
 @login_required
 def new_activity(request):
     if request.method == "POST":
         title = request.POST["title"]
         content = request.POST["description"]
-        date = request.POST["time"]
+        date = request.POST["date"]
+        time = request.POST["time"]
         user = User.objects.get(pk=request.user.id)
-        activity = Activity(user=user, title=title, content=content, date=date)
+        activity = Activity(user=user, title=title, content=content, date=date, timing=time)
         activity.save()
         return HttpResponseRedirect(reverse(index))
 

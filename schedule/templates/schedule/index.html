@@ -12,9 +12,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link navbtn" role="button" id="today">Today</a>
-        <a class="nav-link navbtn" role="button" id="week">Week</a>
-        <a class="nav-link navbtn" role="button" id="month">Month</a>
+        {% if not user.is_authenticated %}
+          <a class="nav-link navbtn" role="button" id="today">Today</a>
+          <a class="nav-link navbtn" role="button" id="week">Week</a>
+          <a class="nav-link navbtn" role="button" id="month">Month</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+          <a class="nav-link navbtn" role="button" id="today" href="{% url 'activities' time='today' %}">Today</a>
+          <a class="nav-link navbtn" role="button" id="week" href="{% url 'activities' time='week' %}">Week</a>
+          <a class="nav-link navbtn" role="button" id="month" href="{% url 'activities' time='month' %}">Month</a>
+        {% endif %}
       </div>
     </div>
   </nav>
@@ -82,7 +89,10 @@
                 <input class="form-control" type="text" name="description" placeholder="Description">
             </div>
             <div class="form-group">
-              <input class="form-control" type="date" name="time" id="datepicker" placeholder="mm/dd/yyyy">
+              <input class="form-control" type="date" name="date" id="datepicker" placeholder="mm/dd/yyyy">
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="time" name="time" id="appt" placeholder="my">
             </div>
             <input class="btn btn-primary" type="submit" value="Add">
           </form>
@@ -91,14 +101,14 @@
     </div>
   </div>
 
-  <div id="today-view">
+  <div id="schedule-view">
+    {% for activity in activities %}
+      <h5>{{ activity.timing }}</h5>
+      <h6>{{ activity.content }}</h6>
+      <a href="{% url 'delete_activity' activity_id=activity.id %}">Complete</a>
+    {% endfor %}
   </div>
 
-  <div id="week-view">
-  </div>
-
-  <div id="month-view">
-  </div>
 {% endblock %}
 
 {% block script %}

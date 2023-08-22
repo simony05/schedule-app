@@ -10,14 +10,16 @@ class Activity(models.Model):
     title = models.CharField(max_length=150)
     content = models.CharField(max_length=300)
     date = models.CharField(max_length=10)
+    timing = models.CharField(max_length=5)
 
     def serialize(self):
         return {
             "id": self.id,
             "title": self.title,
             "content": self.content,
-            "date": self.date
+            "date": self.date,
+            "timing": self.timing
         }
     
     def __str__(self):
-        return f"{self.title}, {self.content}, on {self.date}"
+        return f"{self.title}, {self.content}, at {self.timing} on {self.date}"

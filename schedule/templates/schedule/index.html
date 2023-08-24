@@ -83,16 +83,16 @@
           <form action="{% url 'new_activity' %}" method="post">
             {% csrf_token %}
             <div class="form-group">
-                <input autofocus class="form-control" type="text" name="title" placeholder="Title">
+                <input autofocus class="form-control" type="text" name="title" placeholder="Title" required>
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="description" placeholder="Description">
+                <input class="form-control" type="text" name="description" placeholder="Description" required>
             </div>
             <div class="form-group">
-              <input class="form-control" type="date" name="date" id="datepicker" placeholder="mm/dd/yyyy">
+              <input class="form-control" type="date" name="date" id="datepicker" placeholder="mm/dd/yyyy" required>
             </div>
             <div class="form-group">
-              <input class="form-control" type="time" name="time" id="appt" placeholder="my">
+              <input class="form-control" type="time" name="time" id="appt" placeholder="HH:MM TT" required>
             </div>
             <input class="btn btn-primary" type="submit" value="Add">
           </form>

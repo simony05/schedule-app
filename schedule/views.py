@@ -23,7 +23,7 @@ def index(request):
                 passed_activity.delete()
             if activity_day == datetime.now().day:
                 valid.append(activity)
-        valid.sort(key=lambda x: x.timing[:2])
+        valid.sort(key=lambda x: x.timing)
         return render(request, "schedule/index.html", {
         "activities": valid,
         })
